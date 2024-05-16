@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post '/login', to: 'sessions#create'
+  post '/logout', to: 'sessions#destroy'
   mount Rswag::Api::Engine => '/api-docs'
   mount Rswag::Ui::Engine => '/api-docs'
   resources :users, only: [:create]
