@@ -1,10 +1,25 @@
-PASSWORD_REQUIREMENTS = /\A
-    (?=.{8,}) # At least 8 characters long
-    (?=.*\d) # Contain at least one number
-    (?=.*[a-z]) # Contain at least one lowercase letter
-    (?=.*[A-Z]) # Contain at least one uppercase letter
-    (?=.*[[:^alnum:]]) # Contain at least one symbol
-/x
+PASSWORD_REQUIREMENTS = {
+  :eight_characters => {
+    :pattern => /\A(?=.{8,})/x,
+    :error_message => "Must contain atleast 8 characters"
+  },
+  :atleast_one_number => {
+    :pattern => /\A(?=.*\d)/x,
+    :error_message => "Must contain atleast one number"
+  },
+  :atleast_one_lowercase => {
+    :pattern => /\A(?=.*[a-z])/x,
+    :error_message => "Must contain atleast one lowercase letter",
+  },
+  :atleast_one_upprecase => {
+    :pattern => /\A(?=.*[A-Z])/x,
+    :error_message => "Must contain atleast one uppercase letter"
+  }, 
+  :atleast_one_symbol => {
+    :pattern => /\A(?=.*[[:^alnum:]])/x,
+    :error_message => "Must contain at least one symbol"
+  }
+}
 
 class UsersController < ApplicationController
   before_action :validate_password, only: [:create]
@@ -20,8 +35,16 @@ class UsersController < ApplicationController
   private
 
     def validate_password
-      if !PASSWORD_REQUIREMENTS.match(user_params[:password])
-        render json: { errors: "bad password"}, status: :bad_request
+      errors = {
+        :password => []
+      }
+      PASSWORD_REQUIREMENTSS.each do |key, value|
+        if !value[:pattern].match(user_params[:password])
+          errors[:password].push(value[:error_message])
+        end
+      end
+      if !errors[:password].empty?
+        render json: { errors: errors}, status: :bad_request
       end
     end
 
