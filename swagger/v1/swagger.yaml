@@ -4,26 +4,63 @@ info:
   title: API V1
   version: v1
 paths:
-  "/users":
-    post:
-      summary: create user
-      parameters: []
+  "/customers":
+    get:
+      summary: list customers
       responses:
         '200':
           description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-              required:
-              - email
-              - password
+    post:
+      summary: create customer
+      responses:
+        '200':
+          description: successful
+  "/customers/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show customer
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update customer
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update customer
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete customer
+      responses:
+        '200':
+          description: successful
+  "/login":
+    post:
+      summary: create session
+      responses:
+        '200':
+          description: successful
+  "/logout":
+    post:
+      summary: delete session
+      responses:
+        '200':
+          description: successful
+  "/users":
+    post:
+      summary: create user
+      responses:
+        '200':
+          description: successful
 servers:
 - url: http://{defaultHost}
   variables:

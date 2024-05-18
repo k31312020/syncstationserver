@@ -1,60 +1,100 @@
-require 'rails_helper'
+require 'swagger_helper'
 
-RSpec.describe "Customers", type: :request do
-  describe "GET /index" do
-    it "returns http success" do
-      get "/customers/index"
-      expect(response).to have_http_status(:success)
+RSpec.describe 'customers', type: :request do
+
+  path '/customers' do
+
+    get('list customers') do
+      response(200, 'successful') do
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+    end
+
+    post('create customer') do
+      response(200, 'successful') do
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
     end
   end
 
-  describe "GET /new" do
-    it "returns http success" do
-      get "/customers/new"
-      expect(response).to have_http_status(:success)
+  path '/customers/{id}' do
+    # You'll want to customize the parameter types...
+    parameter name: 'id', in: :path, type: :string, description: 'id'
+
+    get('show customer') do
+      response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+    end
+
+    patch('update customer') do
+      response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+    end
+
+    put('update customer') do
+      response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+    end
+
+    delete('delete customer') do
+      response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
     end
   end
-
-  describe "GET /show" do
-    it "returns http success" do
-      get "/customers/show"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET /create" do
-    it "returns http success" do
-      get "/customers/create"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET /edit" do
-    it "returns http success" do
-      get "/customers/edit"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET /update" do
-    it "returns http success" do
-      get "/customers/update"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET /destroy" do
-    it "returns http success" do
-      get "/customers/destroy"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET /search" do
-    it "returns http success" do
-      get "/customers/search"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
 end
