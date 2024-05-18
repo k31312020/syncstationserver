@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_13_044312) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_18_020710) do
+  create_table "customers", force: :cascade do |t|
+    t.string "firstname"
+    t.text "middlename"
+    t.string "lastname"
+    t.string "email"
+    t.string "phone"
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_customers_on_email", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
