@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:create]
   def create
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
@@ -7,6 +8,8 @@ class SessionsController < ApplicationController
       else
         session[:user_id] = user.id
       end
+      reset_session
+      cookies["CSRF_TOKEN"] = form_authenticity_token
       render json: user, status: :ok
     else
       render json: { error: "Invalid email or password" }, status: :unauthorized
