@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
+    include RenderErrorsHandler
     # after_action :set_csrf_cookie
     include Pagy::Backend
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
     private
     # enable these for prod CSRF refreshes on each request

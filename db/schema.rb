@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_18_020710) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_06_053716) do
+  create_table "Persons", id: false, force: :cascade do |t|
+    t.integer "PersonID"
+    t.string "LastName", limit: 255
+    t.string "FirstName", limit: 255
+    t.string "Address", limit: 255
+    t.string "City", limit: 255
+  end
+
   create_table "customers", force: :cascade do |t|
     t.string "firstname"
     t.text "middlename"
@@ -26,6 +34,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_020710) do
     t.index ["email"], name: "index_customers_on_email", unique: true
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.integer "stock"
+    t.text "description"
+    t.string "short"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_products_on_code", unique: true
+    t.index ["user_id"], name: "index_products_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -33,4 +54,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_020710) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "products", "users"
 end
