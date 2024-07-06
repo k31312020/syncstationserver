@@ -31,4 +31,28 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors[:password], user.errors.full_messages
   end
 end
+
+class PasswordValidatable
+  include ActiveModel::Validations
+  validates_with PasswordValidator, :attributes=>[:password]
+  attr_accessor  :password
+end
+
+class PasswordValidatorTest < ActiveSupport::TestCase
+  test "password should contain atleast 8 characters" do
+    obj = PasswordValidatable.new
+    obj.password = "passwOrd"
+    assert_not obj.valid?, obj.errors.full_messages
+  end
+
+  test "password should contain atleast 1 number" do
+    obj = PasswordValidatable.new
+    obj.password = "passwOrdd"
+    assert obj.valid?, obj.errors.full_messages
+  end
+end
+
+
+
+
  

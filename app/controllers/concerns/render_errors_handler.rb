@@ -2,7 +2,7 @@ module RenderErrorsHandler
     extend ActiveSupport::Concern
     
     included do
-        helpermethod :render_not_found_response, :render_unprocessable_entity_response
+        helper_method :render_not_found_response, :render_unprocessable_entity_response
     end
 
     def render_not_found_response
