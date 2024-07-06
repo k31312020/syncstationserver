@@ -78,3 +78,5 @@ gem 'pry', '~> 0.14.2'
 
 gem 'simplecov', require: false, group: :test
 
+
+gem 'pagy', '~> 8.6.3'

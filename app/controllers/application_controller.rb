@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
     # after_action :set_csrf_cookie
+    include Pagy::Backend
 
     private
     # enable these for prod CSRF refreshes on each request

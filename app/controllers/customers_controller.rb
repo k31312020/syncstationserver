@@ -2,7 +2,8 @@ require 'pry'
 
 class CustomersController < ApplicationController
   include RenderErrorsHandler
-
+  
+  after_action { pagy_headers_merge(@pagy) if @pagy }
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   before_action :set_customer, only: [:show, :update, :destroy]
@@ -27,8 +28,8 @@ class CustomersController < ApplicationController
   end
 
   def search
-    customers = Customer.where("firstname LIKE ?", params[:q])
-    render json: customers
+    pagy, records = pagy(Customer.where("firstname LIKE ?", params[:q]))
+    render json: { customers: records, page: pagy_metadata(pagy) }
   end
 
   private 
